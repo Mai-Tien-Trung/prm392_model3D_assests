@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:animate_do/animate_do.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../data/services/user_service.dart';
-import '../data/models/user_model.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -12,24 +9,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final UserService _userService = UserService();
-  UserModel? user;
-  bool isLoading = true;
-
-  @override
-  void initState() {
-    super.initState();
-    fetchProfile();
-  }
-
-  Future<void> fetchProfile() async {
-    final fetchedUser = await _userService.getProfile();
-    setState(() {
-      user = fetchedUser;
-      isLoading = false;
-    });
-  }
-
   Future<void> logout() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove("token");
@@ -39,157 +18,91 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            _buildHeader(),
-            isLoading
-                ? const Padding(
-              padding: EdgeInsets.all(50.0),
-              child: CircularProgressIndicator(),
-            )
-                : user == null
-                ? const Padding(
-              padding: EdgeInsets.all(50.0),
-              child: Text("⚠️ Failed to load profile"),
-            )
-                : Padding(
-              padding: const EdgeInsets.symmetric(
-                  horizontal: 30, vertical: 20),
-              child: FadeInUp(
-                duration: const Duration(milliseconds: 1200),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Welcome back, ${user!.username} 👋",
-                      style: const TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                        color: Color.fromRGBO(50, 50, 100, 1),
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      "Email: ${user!.email}",
-                      style: TextStyle(color: Colors.grey[700]),
-                    ),
-                    const SizedBox(height: 40),
-                    Center(
-                      child: GestureDetector(
-                        onTap: logout,
-                        child: Container(
-                          height: 50,
-                          width: 160,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            gradient: const LinearGradient(
-                              colors: [
-                                Color.fromRGBO(143, 148, 251, 1),
-                                Color.fromRGBO(143, 148, 251, .6),
-                              ],
-                            ),
-                          ),
-                          child: const Center(
-                            child: Text(
-                              "Logout",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [Color(0xFF6C5CE7), Color(0xFFA29BFE)],
+          ),
+        ),
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(30),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  "Home",
+                  style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold, color: Colors.white),
                 ),
-              ),
+                const SizedBox(height: 50),
+
+                // 3 NÚT CHÍNH
+                _buildButton(
+                  text: "3D Model Generate",
+                  onTap: () => Navigator.pushNamed(context, '/generate'),
+                  icon: Icons.auto_awesome,
+                  color: Colors.orange,
+                ),
+                const SizedBox(height: 20),
+
+                _buildButton(
+                  text: "Membership",
+                  onTap: () {
+                    // TODO: Chuyển đến trang Membership
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text("Membership Page (Coming Soon)")),
+                    );
+                  },
+                  icon: Icons.card_membership,
+                  color: Colors.purple,
+                ),
+                const SizedBox(height: 20),
+
+                _buildButton(
+                  text: "Logout",
+                  onTap: logout,
+                  icon: Icons.logout,
+                  color: Colors.red,
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
   }
 
-  Widget _buildHeader() {
-    return Container(
-      height: 400,
-      decoration: const BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage('assets/images/background.png'),
-          fit: BoxFit.fill,
+  Widget _buildButton({
+    required String text,
+    required VoidCallback onTap,
+    required IconData icon,
+    required Color color,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        height: 70,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10)],
         ),
-      ),
-      child: Stack(
-        children: <Widget>[
-          Positioned(
-            left: 30,
-            width: 80,
-            height: 200,
-            child: FadeInUp(
-              duration: const Duration(seconds: 1),
-              child: Container(
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage('assets/images/light-1.png'),
-                  ),
-                ),
-              ),
+        child: Row(
+          children: [
+            const SizedBox(width: 20),
+            Icon(icon, color: color, size: 32),
+            const SizedBox(width: 20),
+            Text(
+              text,
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: color),
             ),
-          ),
-          Positioned(
-            left: 140,
-            width: 80,
-            height: 150,
-            child: FadeInUp(
-              duration: const Duration(milliseconds: 1200),
-              child: Container(
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage('assets/images/light-2.png'),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Positioned(
-            right: 40,
-            top: 40,
-            width: 80,
-            height: 150,
-            child: FadeInUp(
-              duration: const Duration(milliseconds: 1300),
-              child: Container(
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage('assets/images/clock.png'),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Positioned(
-            child: FadeInUp(
-              duration: const Duration(milliseconds: 1600),
-              child: Container(
-                margin: const EdgeInsets.only(top: 50),
-                child: const Center(
-                  child: Text(
-                    "Home",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 40,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ],
+            const Spacer(),
+            const Icon(Icons.arrow_forward_ios, color: Colors.grey),
+            const SizedBox(width: 20),
+          ],
+        ),
       ),
     );
   }
