@@ -1,9 +1,12 @@
+import 'package:day12_login/screens/register_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'screens/login_page.dart';
 import 'screens/home_page.dart';
 import 'screens/generate_3d_page.dart';
 import 'screens/membership_page.dart';
+import 'screens/available_packages_page.dart';
+import 'screens/register_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,8 +28,10 @@ class MyApp extends StatelessWidget {
         '/login': (context) => const LoginPage(),
         '/home': (context) => const HomePage(),
         '/membership': (context) => const MembershipPage(),
-
+        '/packages': (context) => const AvailablePackagesPage(),
         '/generate': (context) => const Generate3DPage(),
+        '/register': (context) => const RegisterPage(),
+
       },
     );
   }

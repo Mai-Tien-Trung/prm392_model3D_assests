@@ -1,8 +1,9 @@
 import 'package:day12_login/data/models/current_subscription.dart';
 import 'package:day12_login/data/models/subscription_history.dart';
+import 'package:day12_login/data/services/membership_service.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../data/services/membership_service.dart';
+import 'available_packages_page.dart'; // ✅ import để mở trang gói có sẵn
 
 class MembershipPage extends StatefulWidget {
   const MembershipPage({super.key});
@@ -20,6 +21,10 @@ class _MembershipPageState extends State<MembershipPage> {
   @override
   void initState() {
     super.initState();
+    _loadData();
+  }
+
+  void _loadData() {
     _currentSub = _service.getCurrentSubscription();
     _history = _service.getMySubscriptionHistory();
   }
@@ -40,6 +45,26 @@ class _MembershipPageState extends State<MembershipPage> {
               Tab(text: "History", icon: Icon(Icons.history)),
             ],
           ),
+          actions: [
+            IconButton(
+              tooltip: "Explore Packages",
+              icon: const Icon(Icons.add_card_outlined),
+              onPressed: () async {
+
+                final changed = await Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const AvailablePackagesPage()),
+                );
+
+                if (changed == true) {
+                  setState(_loadData);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text("Subscription updated!")),
+                  );
+                }
+              },
+            )
+          ],
         ),
         body: Container(
           decoration: const BoxDecoration(
@@ -109,17 +134,10 @@ class _MembershipPageState extends State<MembershipPage> {
               children: [
                 Text(
                   sub.packageName,
-                  style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black87,
-                  ),
+                  style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black87),
                 ),
                 const SizedBox(height: 6),
-                Text(
-                  sub.packageDescription,
-                  style: const TextStyle(fontSize: 14, color: Colors.black87),
-                ),
+                Text(sub.packageDescription, style: const TextStyle(fontSize: 14, color: Colors.black87)),
                 const SizedBox(height: 10),
                 Text("Price: ${sub.packagePrice} VND"),
                 Text("Duration: ${sub.packageDurationDays} days"),
@@ -130,17 +148,9 @@ class _MembershipPageState extends State<MembershipPage> {
                 const SizedBox(height: 8),
                 Row(
                   children: [
-                    const Text(
-                      "Status: ",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      sub.status,
-                      style: TextStyle(
-                        color: statusColor,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+                    const Text("Status: ", style: TextStyle(fontWeight: FontWeight.bold)),
+                    Text(sub.status,
+                        style: TextStyle(color: statusColor, fontWeight: FontWeight.bold)),
                   ],
                 ),
               ],
@@ -173,7 +183,7 @@ class _MembershipPageState extends State<MembershipPage> {
 
         final history = snapshot.data!;
         return ListView.builder(
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.all(16),
           itemCount: history.length,
           itemBuilder: (context, index) {
             final item = history[index];
@@ -182,24 +192,18 @@ class _MembershipPageState extends State<MembershipPage> {
                 : (item.status == "Cancelled" ? Colors.red : Colors.grey);
 
             return Card(
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-              margin: const EdgeInsets.only(bottom: 15),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+              margin: const EdgeInsets.only(bottom: 12),
               child: ListTile(
                 leading: const Icon(Icons.card_membership, color: Colors.deepPurple),
-                title: Text(item.packageName,
-                    style: const TextStyle(fontWeight: FontWeight.bold)),
+                title: Text(item.packageName, style: const TextStyle(fontWeight: FontWeight.bold)),
                 subtitle: Text(
                   "${item.packageDescription}\n"
                       "Price: ${item.packagePrice} VND • ${item.packageDurationDays} days\n"
                       "Created: ${formatDate(item.createdAt)}",
                 ),
-                trailing: Text(
-                  item.status,
-                  style: TextStyle(
-                    color: statusColor,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+                trailing: Text(item.status,
+                    style: TextStyle(color: statusColor, fontWeight: FontWeight.bold)),
               ),
             );
           },

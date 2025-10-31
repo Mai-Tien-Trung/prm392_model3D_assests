@@ -38,12 +38,20 @@ class _HomePageState extends State<HomePage> {
                 ),
                 const SizedBox(height: 50),
 
-                // 3 NÚT CHÍNH
+                // 4 NÚT CHÍNH
                 _buildButton(
                   text: "3D Model Generate",
                   onTap: () => Navigator.pushNamed(context, '/generate'),
                   icon: Icons.auto_awesome,
                   color: Colors.orange,
+                ),
+                const SizedBox(height: 20),
+
+                _buildButton(
+                  text: "All Packages",
+                  onTap: () => Navigator.pushNamed(context, '/packages'),
+                  icon: Icons.list_alt,
+                  color: Colors.blueAccent,
                 ),
                 const SizedBox(height: 20),
 
