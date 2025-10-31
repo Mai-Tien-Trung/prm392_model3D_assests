@@ -3,6 +3,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'screens/login_page.dart';
 import 'screens/home_page.dart';
 import 'screens/generate_3d_page.dart';
+import 'screens/membership_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,6 +24,8 @@ class MyApp extends StatelessWidget {
       routes: {
         '/login': (context) => const LoginPage(),
         '/home': (context) => const HomePage(),
+        '/membership': (context) => const MembershipPage(),
+
         '/generate': (context) => const Generate3DPage(),
       },
     );

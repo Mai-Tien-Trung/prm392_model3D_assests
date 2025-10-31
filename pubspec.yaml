@@ -32,6 +32,7 @@ dependencies:
   permission_handler: ^11.3.1  # Để xin quyền lưu file
   flutter_dotenv: ^5.1.0
   model_viewer_plus: ^1.7.0
+  intl: ^0.19.0
 
 dev_dependencies:
   flutter_test:

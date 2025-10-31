@@ -49,12 +49,7 @@ class _HomePageState extends State<HomePage> {
 
                 _buildButton(
                   text: "Membership",
-                  onTap: () {
-                    // TODO: Chuyển đến trang Membership
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text("Membership Page (Coming Soon)")),
-                    );
-                  },
+                  onTap: () => Navigator.pushNamed(context, '/membership'),
                   icon: Icons.card_membership,
                   color: Colors.purple,
                 ),
