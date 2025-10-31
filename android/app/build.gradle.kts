@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "com.example.day12_login"
-    compileSdk = flutter.compileSdkVersion
+    compileSdk = 36
     ndkVersion = flutter.ndkVersion
 
     compileOptions {

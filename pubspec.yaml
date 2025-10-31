@@ -28,8 +28,8 @@ dependencies:
   http: ^1.2.0
   shared_preferences: ^2.2.3
   jwt_decoder: ^2.0.1
-  path_provider: ^2.1.2
-  permission_handler: ^11.3.1  # Để xin quyền lưu file
+  path_provider: ^2.1.5
+  permission_handler: ^12.0.1  # Để xin quyền lưu file
   flutter_dotenv: ^5.1.0
   model_viewer_plus: ^1.7.0
 
