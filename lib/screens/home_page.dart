@@ -38,7 +38,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 const SizedBox(height: 50),
 
-                // 3 NÚT CHÍNH
+                // 4 NÚT CHÍNH
                 _buildButton(
                   text: "3D Model Generate",
                   onTap: () => Navigator.pushNamed(context, '/generate'),
@@ -48,13 +48,16 @@ class _HomePageState extends State<HomePage> {
                 const SizedBox(height: 20),
 
                 _buildButton(
+                  text: "All Packages",
+                  onTap: () => Navigator.pushNamed(context, '/packages'),
+                  icon: Icons.list_alt,
+                  color: Colors.blueAccent,
+                ),
+                const SizedBox(height: 20),
+
+                _buildButton(
                   text: "Membership",
-                  onTap: () {
-                    // TODO: Chuyển đến trang Membership
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text("Membership Page (Coming Soon)")),
-                    );
-                  },
+                  onTap: () => Navigator.pushNamed(context, '/membership'),
                   icon: Icons.card_membership,
                   color: Colors.purple,
                 ),
