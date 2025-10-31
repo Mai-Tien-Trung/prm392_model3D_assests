@@ -24,9 +24,14 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   animate_do: ^3.1.2
+  image_picker: ^1.0.7
   http: ^1.2.0
   shared_preferences: ^2.2.3
   jwt_decoder: ^2.0.1
+  path_provider: ^2.1.2
+  permission_handler: ^11.3.1  # Để xin quyền lưu file
+  flutter_dotenv: ^5.1.0
+  model_viewer_plus: ^1.7.0
 
 dev_dependencies:
   flutter_test:
@@ -47,6 +52,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
    - assets/images/
+   - .env
   #  - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
